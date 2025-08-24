@@ -1,0 +1,28 @@
+node_modules
+.env/
+# Ignore node_modules
+node_modules/
+node_modules/
+
+# Ignore build output
+dist/
+build/
+
+# Ignore logs
+*.log
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore environment files
+.env
+
+# Ignore IDE settings
+.vscode/
+.idea/
+
+# Ignore system files
+*.tmp
+*.swp
+.
