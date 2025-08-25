@@ -7,6 +7,7 @@ const {Hashotp} = require('../utils/Encrypt')
 const nodemailer = require("nodemailer");
 const Hashpassward = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const VerifyAuth = require('../middleware/VerifyAuth')
 
 
 app.use(express.json())
@@ -15,7 +16,8 @@ app.use(express.json())
 AuthRoute.post('/signup' , async(req,res)=>{
 
      try{
-    const {fullName , email , password , role ,phoneNumber } = req.body 
+    const {fullName , email , password , role ,phoneNumber , status } = req.body 
+   
      const hashPassward = await Encrypted({password})
 
        const otp = Math.floor(100000 + Math.random() * 900000);
@@ -29,6 +31,8 @@ AuthRoute.post('/signup' , async(req,res)=>{
      role,
      phoneNumber,
      otp:HashCode ,
+     documents,
+     status ,
     otpExpires: Date.now() + 1 * 60 * 1000 
     })
 
@@ -79,6 +83,7 @@ AuthRoute.post('/otp/verify' , async(req,res)=>{
 }
 
        findUser.isVerified = true
+       findUser.otp = null
 
        await findUser.save()
      
@@ -118,6 +123,16 @@ const token = await jwt.sign({id:user._id} ,process.env.private_key , {expiresIn
 // token will be expire with in hour
 res.cookie('token' , token , { expires: new Date(Date.now() + 1 * 3600000)})
 res.status(200).send(user.fullName + ' Login Successfully ')
+    }catch(err){
+        res.status(401).send(err.message)
+    }
+})
+
+AuthRoute.post('/logout' ,VerifyAuth , async(req,res)=>{
+    try{
+          const user = req.user
+        res.clearCookie('token').send(user.fullName + ' Logout SuccessFully')
+
     }catch(err){
         res.status(401).send(err.message)
     }

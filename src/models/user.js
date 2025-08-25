@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
         }
     }
   },
-  password: {   
+  password: {
     type: String,
     required: true,
     minlength: 6,
@@ -44,7 +44,7 @@ phoneNumber: {
   },
   required: [true, "Phone number is required"]
 },
-  role: { 
+  role: {
     type: String,
     enum: ['Patient', 'Doctor', 'Healthcare Worker', 'Lab', 'Pharmacy', 'Ambulance Driver'],
     message:`{VALUE} is incorrect type` ,
@@ -67,7 +67,17 @@ phoneNumber: {
  otpExpires: {
   type: Date,
   required: true
-}
+},
+  status: {
+    type: String,
+    enum: ["pending", "approved", "rejected"],
+    default: "pending"
+  },
+  documents: [
+    {
+      type: Buffer
+    }
+  ]
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", UserSchema);
