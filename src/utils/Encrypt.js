@@ -5,4 +5,10 @@ const Encrypted = async({password})=>{
     return res ;
 }
 
-module.exports = {Encrypted}
+const Hashotp = async({value})=>{
+    const res = await Hashpassward.hash(value , 10)
+    return res 
+}
+
+
+module.exports = {Encrypted , Hashotp}

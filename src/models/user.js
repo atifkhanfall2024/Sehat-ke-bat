@@ -54,8 +54,20 @@ phoneNumber: {
     type: Boolean,
     default: false,
   },
+  photo:{
+    type:String,
+    validate(value){
+        if(!validator.isURL(value)){
+            throw new Error('Invalid Url')
+        }
+    }
+
+  } ,
    otp: String,
-  otpExpiry: Date,
+ otpExpires: {
+  type: Date,
+  required: true
+}
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", UserSchema);
