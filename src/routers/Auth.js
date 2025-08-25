@@ -1,10 +1,16 @@
 const express = require('express')
+const app = express()
 const AuthRoute = express.Router()
 const User = require('../models/user')
 const {Encrypted} = require('../utils/Encrypt')
 const {Hashotp} = require('../utils/Encrypt')
 const nodemailer = require("nodemailer");
 const Hashpassward = require('bcrypt')
+const jwt = require('jsonwebtoken')
+
+
+app.use(express.json())
+
 
 AuthRoute.post('/signup' , async(req,res)=>{
 
@@ -83,5 +89,37 @@ AuthRoute.post('/otp/verify' , async(req,res)=>{
     }
 })
 
-AuthRoute.post('/login' , async(req,res)=>{})
+AuthRoute.post('/login' , async(req,res)=>{
+    try{
+           
+const {email , password} = req.body
+
+// first validate the email 
+
+const user = await User.findOne({email:email})
+if(!user){
+    return res.status(401).send('Invalid Credantials')
+}
+
+
+
+// token only send when passward and email both verify
+
+const Passward = await Hashpassward.compare(password , user.password)
+if(!Passward){
+    return res.status(401).send('Invalid Credantials')
+}
+
+if(user.isVerified !== true){
+     return res.status(401).send('Invalid Credantials . Please Verify Your Otp')
+}
+// now making jwt which will be wrap inside cookie
+const token = await jwt.sign({id:user._id} ,process.env.private_key , {expiresIn:'1d'} )
+// token will be expire with in hour
+res.cookie('token' , token , { expires: new Date(Date.now() + 1 * 3600000)})
+res.status(200).send(user.fullName + ' Login Successfully ')
+    }catch(err){
+        res.status(401).send(err.message)
+    }
+})
 module.exports = AuthRoute

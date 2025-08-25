@@ -26,3 +26,11 @@
 - also expires date if date.now is greater than expires date
 - change status to true if verified
 
+## making login api
+- first i verify email and compare passward
+- then generate token using jwt and wrap inside in cookies
+- then also set that only those users can login who verify you otp 
+
+## now i need of middleware 
+- middle ware also done 
+

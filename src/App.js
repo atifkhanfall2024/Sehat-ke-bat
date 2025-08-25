@@ -2,8 +2,9 @@ const express = require('express')
 const app = express()
 const Connectdb = require('./config/Database')
 const AuthRoute = require('./routers/Auth')
+const parser = require('cookie-parser')
 
-
+app.use(parser())
 app.use(express.json())
 app.use('/' , AuthRoute)
 
