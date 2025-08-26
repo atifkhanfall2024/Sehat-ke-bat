@@ -16,24 +16,22 @@ app.use(express.json())
 AuthRoute.post('/signup' , async(req,res)=>{
 
      try{
-    const {fullName , email , password , role ,phoneNumber , status } = req.body 
-   
+    const {fullName , email , password , phoneNumber } = req.body 
+      
      const hashPassward = await Encrypted({password})
 
        const otp = Math.floor(100000 + Math.random() * 900000);
        const value = otp.toString()
+
 
        const HashCode = await Hashotp({value})
        const user = new User({
      fullName ,
      email ,
      password:hashPassward ,
-     role,
      phoneNumber,
      otp:HashCode ,
-     documents,
-     status ,
-    otpExpires: Date.now() + 1 * 60 * 1000 
+    otpExpires: Date.now() + 2 * 60 * 1000 
     })
 
     const transporter = nodemailer.createTransport({
@@ -84,7 +82,6 @@ AuthRoute.post('/otp/verify' , async(req,res)=>{
 
        findUser.isVerified = true
        findUser.otp = null
-
        await findUser.save()
      
         res.status(200).send('Verification is Success')

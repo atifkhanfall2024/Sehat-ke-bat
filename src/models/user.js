@@ -44,12 +44,7 @@ phoneNumber: {
   },
   required: [true, "Phone number is required"]
 },
-  role: {
-    type: String,
-    enum: ['Patient', 'Doctor', 'Healthcare Worker', 'Lab', 'Pharmacy', 'Ambulance Driver'],
-    message:`{VALUE} is incorrect type` ,
-    default: 'Patient',
-  },
+
   isVerified: {
     type: Boolean,
     default: false,
@@ -68,16 +63,7 @@ phoneNumber: {
   type: Date,
   required: true
 },
-  status: {
-    type: String,
-    enum: ["pending", "approved", "rejected"],
-    default: "pending"
-  },
-  documents: [
-    {
-      type: Buffer
-    }
-  ]
+
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", UserSchema);
