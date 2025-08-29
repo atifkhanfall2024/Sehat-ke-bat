@@ -16,7 +16,7 @@ app.use(express.json())
 AuthRoute.post('/signup' , async(req,res)=>{
 
      try{
-    const {fullName , email , password , phoneNumber } = req.body 
+    const {fullName , email , password , phoneNumber  , photo} = req.body 
       
      const hashPassward = await Encrypted({password})
 
@@ -30,6 +30,7 @@ AuthRoute.post('/signup' , async(req,res)=>{
      email ,
      password:hashPassward ,
      phoneNumber,
+     photo ,
      otp:HashCode ,
     otpExpires: Date.now() + 2 * 60 * 1000 
     })

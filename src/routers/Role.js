@@ -2,7 +2,8 @@ const express = require('express')
 const RoleSelect = express.Router()
 const VerifyAuth = require('../middleware/VerifyAuth')
 const RoleBased = require('../models/Role')
-const { findById } = require('../models/user')
+
+
 
 
 RoleSelect.post('/roles/verify' ,VerifyAuth , async(req,res)=>{
@@ -13,9 +14,13 @@ RoleSelect.post('/roles/verify' ,VerifyAuth , async(req,res)=>{
          let status ;
    if (["Doctor", "Healthcare_worker", "Lab", "Pharmacy", "Ambulance_driver"].includes(role)) {
       status = "pending";
-} else {
+} else if(['Patient'].includes(role)){
    status = "approved";
-} 
+} else{
+   res.status(401).json({
+      message:"unautorizaed role"
+   })
+}
 
 
 
