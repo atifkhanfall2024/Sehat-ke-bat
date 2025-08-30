@@ -22,7 +22,7 @@ Admin.post('/admin/verify/:id' , VerifyAuth , RoleVerify('Admin') , async(req,re
   try{
       // first it will pick status from frontend
     const {status} = req.body
-    console.log(status);
+   // console.log(status);
     const Allowstatus = ["rejected" , "approved"]
 
     // checkk that if allow status have this or not
@@ -46,6 +46,7 @@ Admin.post('/admin/verify/:id' , VerifyAuth , RoleVerify('Admin') , async(req,re
     }
 
     Find.status = status
+    Find.documents = null
 
     await Find.save()
 
@@ -55,5 +56,9 @@ Admin.post('/admin/verify/:id' , VerifyAuth , RoleVerify('Admin') , async(req,re
       res.status(500).json({ message: err.message });
   }
 })
+
+
+
+
 
 module.exports = Admin

@@ -6,6 +6,7 @@ const parser = require('cookie-parser')
 const Role = require('./routers/Role')
 const Admin = require('./routers/Admin')
 app.use(parser())
+app.use('/uploads', express.static('uploads'));
 app.use(express.json())
 app.use('/' , AuthRoute)
 app.use('/' , Role)

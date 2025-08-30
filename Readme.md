@@ -34,3 +34,5 @@
 ## now i need of middleware 
 - middle ware also done 
 
+## save image or docx in database
+- first install a npm package multer

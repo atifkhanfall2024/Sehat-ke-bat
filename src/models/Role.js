@@ -16,11 +16,7 @@ const RoleBased = new mongoose.Schema({
     enum: ["pending", "approved", "rejected"],
     default: "pending"
   },
-  documents: [
-    {
-      type: Buffer
-    }
-  ]
+  documents: [{ type: String }],
    
 })
 
